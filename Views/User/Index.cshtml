@@ -1,0 +1,63 @@
+@model IEnumerable<User>;
+    
+@{
+    ViewData["Title"] = "User Index Page";
+}
+
+<h1>User Index Page</h1>
+
+
+@if (Model.Count()>0)
+{
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th>รหัสผู้ใช้</th>
+            <th>ชื่อผู้ใช้</th>
+            <th>อีเมล</th>
+            <th>อายุ</th>
+            <th>แก้ไข</th>
+            <th>ลบ</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>@user.Age
+                      @if (user.Age <= 10)
+            {
+                <b>ยังเด็ก</b>
+            }
+            else if (user.Age <= 20)
+            {
+                <b>เริ่มแก่</b>
+            }
+            else
+            {
+                <b>แก่</b>
+            }
+                </td>
+                <td><a class="btn btn-warning" 
+                asp-controller="User"
+                asp-action="Edit"
+                asp-route-id="@user.Id">แก้ไข</a></td>
+                <td><a class="btn btn-danger" 
+                asp-controller="User"
+                asp-action="Delete"
+                asp-route-id="@user.Id"
+                onclick="return confirm('ต้องการลบ @user.Name หรือไม่')">ลบ</a></td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+} else
+{
+    <div class="alert alert-secondary">ไม่มีข้อมูล</div>
+}
+
+
